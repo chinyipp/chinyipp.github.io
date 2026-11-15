@@ -696,7 +696,10 @@ const P=[
 /* ================= APP ================= */
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let LANG='en';
-try{const s=localStorage.getItem('cy-lang');if(s==='zh'||s==='en')LANG=s;}catch(e){}
+let saved=null;try{const s=localStorage.getItem('cy-lang');if(s==='zh'||s==='en')saved=s;}catch(e){}
+const qs=(location.search.match(/[?&]lang=(zh|en)/)||[])[1];
+const nav=(navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||'en']).map(x=>String(x).toLowerCase());
+LANG=qs||saved||(nav[0]&&nav[0].startsWith('zh')?'zh':'en');
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
